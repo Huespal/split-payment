@@ -29,13 +29,27 @@ npm run build // builds the widget
 npm run build:prod // builds the widget in production mode
 ```
 
-To integrate with the widget from an external site it is required to add the following script:
-(the example assumes the script file is at the same path that the html including it)
+To integrate with the widget to an external site it is required to follow this steps: 
+
+1. Add the `split-playment.js` file to the project's root.
+
+2. Add the following script to the entry point html file:
 
 ```javascript
-<script async src="split-payment.js"></script>
+<script src="split-payment.js"></script>
 ```
 
+3. Add a container div where the widget is required to be rendered.
+The container must include: 
+- A 'split-payment' id.
+- A 'data-price' attribute with the price amount to be splited as a value.
+The amount should contain 2 decimals without decimal separator.
+Example: 399,99 should be included as 39999.
+         500 should be included as 50000.
+
+```javascript
+<div id="split-payment" data-price="39999"></script>
+```
 
 ## Approach considerations
 
@@ -92,4 +106,4 @@ TODO
 
 ## Final thoughts
 
-TODO
+As it has been explained before in the approach considerations section, this particular project has the handicap to require to work on a different project which technology may be unknown. There are multiple ways to get a 'piece of code' to be working on another site. Micro-frontends can be a reasonable solution that allows us to work in parallel. An installable npm package may allow a project within a build system to add new functionality, among others, but applying these solutions may not have a small impact on the final bundle size, they may not allow the best compatibility, or they may be difficult to apply. So the solution offered has been reduced to the most compatible, an already bundled script easy to add to any type of site, from a static one to a project of large complexity. It ensures it is contained in a reduced bundled size, at least as small as possible using React. It is very compatible, the only requirements are JavaScript enabled on the site and React and CSS3 browser-related requirements. And it is easy to install, following 3 simple steps that any developer can carry out in a short time.
