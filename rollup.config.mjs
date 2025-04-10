@@ -1,3 +1,4 @@
+import alias from '@rollup/plugin-alias';
 import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
@@ -5,6 +6,7 @@ import replace from '@rollup/plugin-replace';
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import { config } from 'dotenv';
+import path from 'node:path';
 import { parseArgs } from 'node:util';
 import injectProcessEnv from 'rollup-plugin-inject-process-env';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
@@ -61,6 +63,11 @@ export default {
     replace({ preventAssignment: true }),
     typescript({
       tsconfig: './tsconfig.json'
+    }),
+    alias({
+      entries: [
+        { find: '@', replacement: path.resolve('./src/widget') }
+      ]
     }),
     nodeResolve({
       extensions: ['.tsx', '.ts', '.json', '.js', '.jsx', '.mjs'],
