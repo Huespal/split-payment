@@ -16,15 +16,8 @@ export interface CreditAgreementResponse {
   instalment_total: Amount;
 }
 
-export interface CreditAgreement {
+export interface Instalment {
   instalmentCount: number;
-  apr: Amount;
-  totalWithTax: Amount;
-  costOfCredit: Amount;
-  costOfCreditPct: Amount;
-  grandTotal: Amount;
-  maxFinancedAmount: Amount;
-  instalmentAmount: Amount;
   instalmentFee: Amount;
   instalmentTotal: Amount;
 }
