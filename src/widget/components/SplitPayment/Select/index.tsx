@@ -2,6 +2,7 @@ import FieldSelect from '@/components/shared/FieldSelect';
 import { Instalment } from '@/domain/creditAgreement/types';
 import { useCreateEvent } from '@/domain/event/api';
 import { ChangeEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface SplitPaymentSelectProps {
   isLoading: boolean;
@@ -14,6 +15,8 @@ const SplitPaymentSelect = ({
   options,
   onSelect
 }: SplitPaymentSelectProps) => {
+  const { t } = useTranslation();
+
   const { mutate: createEvent } = useCreateEvent();
   const isEmpty = !isLoading && options.length <= 0;
 
@@ -44,7 +47,9 @@ const SplitPaymentSelect = ({
     >
       {({ instalmentCount, instalmentTotal }) => (
         <option key={instalmentCount} value={instalmentCount}>
-          {instalmentCount} instalments of {instalmentTotal.string}/month
+          {t('instalment_month', {
+            count: instalmentCount, total: instalmentTotal.string
+          })}
         </option>
       )}
     </FieldSelect>

@@ -1,0 +1,10 @@
+{
+  "pay_it_in": "Paga-ho en",
+  "more_info": "Més informació",
+  "instalment_month": "{{count}} quotes de {{total}}/mes",
+  "split_title": "Divideix el teu pagament",
+  "split_info_1": "Divideix el teu pagament en un cost fix per cada quota.",
+  "split_info_2": "Ara només pagues la primera quota.",
+  "split_info_3": "El restant del pagament es carregarà automàticament a la teva targeta.",
+  "monthly_fee_included": "El cost mensual de {{fee}}/mes també està inclòs en el total mostrat, de manera que no hi haurà sorpreses."
+}
