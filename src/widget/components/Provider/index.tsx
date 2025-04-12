@@ -18,7 +18,7 @@ export default function Provider({
   const queryClient = getQueryClient();
 
   const theme = useMemo(() => {
-    if (themeName === 'dark') {
+    if (themeName === Themes.dark) {
       return darkTheme;
     }
     return baseTheme;

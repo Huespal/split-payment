@@ -50,11 +50,24 @@ Example: 399,99 should be included as 39999.
 
 It may optionally include:
 - A **data-theme** attribute with the theme name (default: 'base').
-The current available themes are: `base`, with light colours and `dark`, with darker colours.
+The current available themes are: 
+  - `base`: conatining styles in light colours.
+  - `dark`: conatining styles in dark colours.
+
+- A **data-lang** attribute with the language (default: 'en').
+The current available languages are: 
+  - `en`: containing texts in English language.
+  - `ca`: containing texts in Catalan language.
 
 ```javascript
-<div id="split-payment" data-price="39999" data-theme="dark"></script>
+<div
+  id="split-payment"
+  data-price="39999"
+  data-theme="dark" // Optional. Default: 'base'.
+  data-lang="ca" // Optional. Default: 'en'.
+></div>
 ```
+
 
 The widget is automatically intialised after these steps.
 
@@ -76,7 +89,14 @@ Example:
 SplitPayment.updateTheme('dark');
 ```
 
-These methods can be called from the external site Javascript code after the widget initialization.
+- `SplitPayment.updateLanguage`: Allows to update the widget's text language. The available languages are English (en) and Catalan (ca).
+Example:
+
+```javascript
+SplitPayment.updateLanguage('ca'); // Catalan
+```
+
+These methods ara avilable to be used from the external site's Javascript code after the widget initialization.
 
 ## Approach considerations
 
@@ -106,16 +126,21 @@ To develop the user interfaces, it has been decided to use [ReactJS library](htt
 
 The stack is completed by:
 - [TypeScript](https://www.typescriptlang.org/): for basic code scripting.
-- [Tanstack (React) Query](https://tanstack.com/query/latest): to manage asyncronous (API connection) state.
+- [Tanstack (React) Query](https://tanstack.com/query): to manage asyncronous (API connection) state.
 - [Styled Components](https://styled-components.com/): to handle CSS in JS.
+- [React i18next](https://react.i18next.com/): to manage text translations.
 - [Vite](https://vite.dev/) + [Rollup](https://rollupjs.org/): to build the widget for development and production mode.
 - [Vitest](https://vitest.dev/): for testing (with [testing-library](https://testing-library.com/)).
 
 It has been decided to use TypeScript over vanilla Javascript to get advantage of types which allows for a faster and stricter developer experience, and it is the recommended React preference.
 
-It has been decided to use Vite to build the widget in development mode and take advantage of hot reloading for a selfish reason, as other options such as [Webpack](https://webpack.js.org/) will also allow us to build the application perfectly. Rollup is used for building in production mode because it allows us to only build the strictly necessary files in a comfortable configuration. This build configuration works well with just a little setup, is fast and it gives a nice developer experience.
+It has been decided to use React Query to manage API connections due to its ability to avoid unnecessary fetch to the API within the state management under the hood, and the ease of use thanks to React hooks compatibility. [Redux Toolkit Query](https://redux-toolkit.js.org/rtk-query/overview) may have been a valid alternative, among others.
+
+It has been decided to use React i18next to manage text translations because it is a very complete and reliable tool. It requires almost no configuration and is ready to work in a React project. Not only that, but it can handle a lot of text without spoiling the performance, and it can externalize texts to an online service, so the project can be translated asynchronously from an external resource. This last feature has not been used in this project because of its reduced scope.
 
 It has been decided to use Styled Components over [Tailwind CSS](https://tailwindcss.com/) or similar, or just plain CSS because it works flawlessly within React and helps to avoid CSS class conflicts with the external application thanks to its automatic unique class names generation.
+
+It has been decided to use Vite to build the widget in development mode and take advantage of hot reloading for a selfish reason, as other options such as [Webpack](https://webpack.js.org/) will also allow us to build the application perfectly. Rollup is used for building in production mode because it allows us to only build the strictly necessary files in a comfortable configuration. This build configuration works well with just a little setup, is fast and it gives a nice developer experience.
 
 [Eslint](https://eslint.org/) is included to allow developers to lint the code in development mode.
 
@@ -141,7 +166,7 @@ This project has two purposes at once. To include the widget's main code and to 
   The components are created using ReactJS (index.tsx file) and styled using Styled-Components (styles.ts). Shared components include testing (component.test.tsx) files using testing-library and Vitest.
 
 
-- `core`: It contains shared helpers, hooks, constants, assets and fundamental files to handle API, state and theming configuration.
+- `core`: It contains shared helpers, hooks, constants, assets and fundamental files to handle API, state, i18n and theming configuration.
 
 
 - `domain`: It contains a folder for each (backend) domain.

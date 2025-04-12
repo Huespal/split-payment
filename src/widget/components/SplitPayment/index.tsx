@@ -5,6 +5,7 @@ import { useGetCreditAgreements } from '@/domain/creditAgreement/api';
 import { Instalment } from '@/domain/creditAgreement/types';
 import { useCreateEvent } from '@/domain/event/api';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface SplitPaymentProps {
   price: number;
@@ -13,6 +14,8 @@ interface SplitPaymentProps {
 const SplitPayment = ({
   price
 }: SplitPaymentProps) => {
+  const { t } = useTranslation();
+
   const {
     data: creditAgreements = [], isLoading, isSuccess
   } = useGetCreditAgreements(price);
@@ -44,8 +47,10 @@ const SplitPayment = ({
   return (
     <BoxFlex isColumn isBordered padding="1rem" alignItems="center">
       <BoxFlex grow justifyContent="space-between">
-        <p>Pay it in</p>
-        <button onClick={() => { toggleModal(true); }}>More info</button>
+        <p>{t('pay_it_in')}</p>
+        <button onClick={() => { toggleModal(true); }}>
+          {t('more_info')}
+        </button>
       </BoxFlex>
       <SplitPaymentSelect
         isLoading={isLoading}

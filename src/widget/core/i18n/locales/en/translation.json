@@ -1,0 +1,10 @@
+{
+  "pay_it_in": "Pay it in",
+  "more_info": "More info",
+  "instalment_month": "{{count}} instalments of {{total}}/month",
+  "split_title": "Split your payment",
+  "split_info_1": "Split your payment with only a fixed cost per instalment.",
+  "split_info_2": "Now you only pay the first instalment.",
+  "split_info_3": "The rest of the payment will be automatically charged to your card.",
+  "monthly_fee_included": "The monthly fee of {{fee}}/month is also included in the amount shown, so you won't have any surprises."
+}

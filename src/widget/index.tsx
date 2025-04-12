@@ -1,10 +1,12 @@
 import Root from '@/components/Root';
+import { Langs } from '@/core/i18n/types';
 import { Theme, Themes } from '@/core/theme/types';
 import { createRoot, Root as RootType } from 'react-dom/client';
 
 let root: RootType | undefined;
 let price: number | undefined;
 let theme: Theme | undefined;
+let lang: string | undefined;
 
 const init = () => {
   const isDomLoading = document.readyState === 'loading';
@@ -48,15 +50,30 @@ const validateTheme = (theme?: string) => {
   }
 }
 
+const validateLang = (lang?: string) => {
+  if (!lang) {
+    console.warn('Missing language attribute. Using \'en\' language.');
+    return Langs.en;
+  }
+
+  if (!Object.values(Langs).includes(lang as Langs)) {
+    console.warn('Invalid language attribute. Using \'en\' language.');
+    return Langs.en;
+  }
+
+  return lang as Langs;
+}
+
 const render = () => {
   try {
     const container = getContainer();
 
     if (container) {
       root = root || createRoot(container);
-      theme = theme || validateTheme(container.dataset.theme);
       price = price || validatePrice(container.dataset.price);
-      root.render(<Root theme={theme} price={price} />);
+      theme = theme || validateTheme(container.dataset.theme);
+      lang = lang || validateLang(container.dataset.lang);
+      root.render(<Root price={price} theme={theme} lang={lang} />);
     } else {
       console.warn('Split Payment initialization failed. Container not found.');
     }
@@ -75,6 +92,11 @@ const updateTheme = (updatedTheme: Theme) => {
   render();
 }
 
-window.SplitPayment = { updatePrice, updateTheme };
+const updateLanguage = (updatedLang: Langs) => {
+  lang = validateLang(updatedLang);
+  render();
+}
+
+window.SplitPayment = { updatePrice, updateTheme, updateLanguage };
 
 init();

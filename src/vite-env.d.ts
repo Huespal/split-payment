@@ -10,8 +10,9 @@ declare module 'styled-components' {
 declare global {
   interface Window {
     SplitPayment: {
-      updatePrice: (price: number) => void
-      updateTheme: (theme: Theme) => void
+      updatePrice: (price: number) => void;
+      updateTheme: (theme: Theme) => void;
+      updateLanguage: (lang: Langs) => void;
     }
   }
 }
