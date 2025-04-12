@@ -3,16 +3,17 @@ import { Theme, Themes } from '@/core/theme/types';
 import { useState } from 'react';
 
 const App = () => {
-  // price is mocked for development purposes.
-  const price = 39999;
+  const [price, setPrice] = useState(39999);
   const [theme, setTheme] = useState<Theme>(Themes.base);
   const isDark = theme === Themes.dark;
 
-  // The wrapper div and button are added for development purposes.
-  // The div is just to center the widget in the screen.
-  // The button's theme switch is just to switch the theme of the widget.
+  // Some raw content have been added for development purposes.
+  // A main wrapper div to center the widget in the screen.
+  // A price input and label to defined the initial price of the widget.
+  // A button's theme switch to switch the theme of the widget.
   return (
     <div
+      id="split-payment"
       style={{
         height: '100vh',
         display: 'flex',
@@ -22,9 +23,29 @@ const App = () => {
         gap: '1rem'
       }}
     >
-      <button onClick={() => setTheme(isDark ? Themes.base : Themes.dark)}>
-        {isDark ? '☀︎' : '⏾'}
-      </button>
+      <div style={{
+        display: 'flex',
+        justifyContent: "space-between",
+        alignItems: "center",
+        gap: '1rem'
+      }}>
+        <label htmlFor="price">
+          Price input:   
+          <input
+            style={{
+              backgroundColor: 'transparent',
+              marginLeft: '0.5rem'
+            }}
+            id="price"
+            placeholder="39999"
+            value={price}
+            type="number"
+            onChange={(e) => setPrice(Number(e.target.value))} />
+        </label>
+        <button onClick={() => setTheme(isDark ? Themes.base : Themes.dark)}>
+          {isDark ? '☀︎' : '⏾'}
+        </button>
+      </div>
       <Root price={price} theme={theme} />
     </div>
   );

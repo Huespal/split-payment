@@ -16,7 +16,6 @@ const SplitPayment = ({
   const {
     data: creditAgreements = [], isLoading, isSuccess
   } = useGetCreditAgreements(price);
-  const isEmpty = creditAgreements.length <= 0;
 
   const { mutate: createEvent } = useCreateEvent();
 
@@ -42,8 +41,6 @@ const SplitPayment = ({
     }
   }, [isSuccess]);
 
-  if (isLoading || isEmpty) return <></>;
-
   return (
     <BoxFlex isColumn isBordered padding="1rem" alignItems="center">
       <BoxFlex grow justifyContent="space-between">
@@ -51,6 +48,7 @@ const SplitPayment = ({
         <button onClick={() => { toggleModal(true); }}>More info</button>
       </BoxFlex>
       <SplitPaymentSelect
+        isLoading={isLoading}
         options={creditAgreements}
         onSelect={setSelectedInstalment}
       />

@@ -7,11 +7,12 @@ const FieldSetStyled = styled.fieldset(({ theme }) => ({
 }));
 
 interface FieldSelectInputStyledProps {
+  $minWidth?: string;
   $error: boolean;
 }
 
 const FieldSelectInputStyled = styled.select<FieldSelectInputStyledProps>(({
-  theme, $error
+  theme, $minWidth = 0, $error
 }) => ({
   borderRadius: theme.radii.default,
   gridAutoFlow: 'column',
@@ -30,7 +31,7 @@ const FieldSelectInputStyled = styled.select<FieldSelectInputStyledProps>(({
   color: $error
     ? theme.colors.semantic.error[500]
     : theme.colors.neutral[800],
-  minWidth: 0,
+  minWidth: $minWidth,
   cursor: 'pointer',
   appearance: 'none',
   outline: '2px solid',

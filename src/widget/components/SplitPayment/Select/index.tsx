@@ -4,15 +4,18 @@ import { useCreateEvent } from '@/domain/event/api';
 import { ChangeEvent } from 'react';
 
 interface SplitPaymentSelectProps {
+  isLoading: boolean;
   options: Instalment[];
   onSelect: (option: Instalment) => void;
 }
 
 const SplitPaymentSelect = ({
+  isLoading,
   options,
   onSelect
 }: SplitPaymentSelectProps) => {
   const { mutate: createEvent } = useCreateEvent();
+  const isEmpty = !isLoading && options.length <= 0;
 
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
@@ -29,10 +32,13 @@ const SplitPaymentSelect = ({
     }
   };
 
+  if (isEmpty) return <p>No instalments available</p>;
+
   return (
     <FieldSelect
       id="instalments"
       name="instalments"
+      minWidth="18rem"
       onChange={handleChange}
       options={options}
     >
