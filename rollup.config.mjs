@@ -5,6 +5,8 @@ import nodeResolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
+import url from '@rollup/plugin-url';
+import svgr from '@svgr/rollup';
 import { config } from 'dotenv';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
@@ -12,7 +14,6 @@ import injectProcessEnv from 'rollup-plugin-inject-process-env';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
 import tsConfigPaths from 'rollup-plugin-tsconfig-paths';
 import { visualizer } from 'rollup-plugin-visualizer';
-
 const args = parseArgs({
   options: {
     environment: {
@@ -74,6 +75,8 @@ export default {
       browser: true,
       dedupe: ['react', 'react-dom']
     }),
+    url(),
+    svgr(),
     babel({
       babelHelpers: 'bundled',
       presets: [

@@ -1,4 +1,5 @@
 import Root from '@/components/Root';
+import { Theme, Themes } from '@/core/theme/types';
 import { createRoot } from 'react-dom/client';
 
 const init = () => {
@@ -21,6 +22,20 @@ const checkPrice = (price?: string) => {
   }
 }
 
+const checkTheme = (theme?: string) => {
+  if (!theme) {
+    console.warn('Missing data-theme attribute. Using base theme.');
+    return Themes.base;
+  } else {
+    const isValidTheme = Object.values(Themes).includes(theme as Theme);
+    if (!isValidTheme) {
+      console.warn('Invalid data-theme attribute. Using base theme.');
+      return Themes.base;
+    }
+    return theme as Theme;
+  }
+}
+
 const appendContent = () => {
   try {
     const containerId = 'split-payment';
@@ -29,10 +44,11 @@ const appendContent = () => {
       : null;
 
     if (container) {
-      alert(`container exists ${containerId}`);
+      const theme = checkTheme(container.dataset.theme);
       const price = container.dataset.price;
       checkPrice(price);
-      createRoot(container).render(<Root price={Number(price)} />);
+      createRoot(container)
+        .render(<Root theme={theme} price={Number(price)} />);
     } else {
       console.warn('Split Payment initialization failed. Container not found.');
     }
