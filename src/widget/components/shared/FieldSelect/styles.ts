@@ -28,6 +28,7 @@ const FieldSelectInputStyled = styled.select<FieldSelectInputStyledProps>(({
   padding: `${theme.space.xs} ${theme.space.xl}`
     + ` ${theme.space.xs} ${theme.space.default}`,
   fontFamily: theme.fonts.default,
+  fontSize: theme.fontSizes.default,
   color: $error
     ? theme.colors.semantic.error[500]
     : theme.colors.neutral[800],
