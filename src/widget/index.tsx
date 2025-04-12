@@ -1,54 +1,62 @@
 import Root from '@/components/Root';
 import { Theme, Themes } from '@/core/theme/types';
-import { createRoot } from 'react-dom/client';
+import { createRoot, Root as RootType } from 'react-dom/client';
+
+let root: RootType | undefined;
+let price: number | undefined;
+let theme: Theme | undefined;
 
 const init = () => {
   const isDomLoading = document.readyState === 'loading';
   if (isDomLoading) {
-    document.addEventListener('DOMContentLoaded', appendContent);
+    document.addEventListener('DOMContentLoaded', () => render());
   } else {
-    appendContent();
+    render();
   }
 }
 
-const checkPrice = (price?: string) => {
+const getContainer = () => {
+  const containerId = 'split-payment';
+  return containerId
+    ? document.getElementById(containerId)
+    : null;
+}
+
+const validatePrice = (price?: string) => {
   if (!price) {
-    throw new Error('Missing data-price attribute');
+    throw new Error('Missing price attribute');
   }
 
   const isNumber = !isNaN(Number(price));
   if (!isNumber) {
-    throw new Error('data-price attribute is not a number');
+    throw new Error('Price attribute is not a number');
   }
+  return Number(price);
 }
 
-const checkTheme = (theme?: string) => {
+const validateTheme = (theme?: string) => {
   if (!theme) {
-    console.warn('Missing data-theme attribute. Using base theme.');
+    console.warn('Missing theme attribute. Using base theme.');
     return Themes.base;
   } else {
     const isValidTheme = Object.values(Themes).includes(theme as Theme);
     if (!isValidTheme) {
-      console.warn('Invalid data-theme attribute. Using base theme.');
+      console.warn('Invalid theme attribute. Using base theme.');
       return Themes.base;
     }
     return theme as Theme;
   }
 }
 
-const appendContent = () => {
+const render = () => {
   try {
-    const containerId = 'split-payment';
-    const container = containerId
-      ? document.getElementById(containerId)
-      : null;
+    const container = getContainer();
 
     if (container) {
-      const theme = checkTheme(container.dataset.theme);
-      const price = container.dataset.price;
-      checkPrice(price);
-      createRoot(container)
-        .render(<Root theme={theme} price={Number(price)} />);
+      root = root || createRoot(container);
+      theme = theme || validateTheme(container.dataset.theme);
+      price = price || validatePrice(container.dataset.price);
+      root.render(<Root theme={theme} price={price} />);
     } else {
       console.warn('Split Payment initialization failed. Container not found.');
     }
@@ -56,5 +64,17 @@ const appendContent = () => {
     console.warn('Split Payment initialization failed. ', error);
   }
 }
+
+const updatePrice = (updatedPrice: number) => {
+  price = validatePrice(updatedPrice.toString());
+  render();
+}
+
+const updateTheme = (updatedTheme: Theme) => {
+  theme = validateTheme(updatedTheme);
+  render();
+}
+
+window.SplitPayment = { updatePrice, updateTheme };
 
 init();

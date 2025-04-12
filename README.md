@@ -46,7 +46,7 @@ The container must include:
 - A **data-price** attribute with the price amount to be splited as a value.
 The amount should contain 2 decimals without decimal separator.
 Example: 399,99 should be included as 39999.
-         500 should be included as 50000.
+         450,00 should be included as 45000.
 
 It may optionally include:
 - A **data-theme** attribute with the theme name (default: 'base').
@@ -55,6 +55,28 @@ The current available themes are: `base`, with light colours and `dark`, with da
 ```javascript
 <div id="split-payment" data-price="39999" data-theme="dark"></script>
 ```
+
+The widget is automatically intialised after these steps.
+
+4. (Optional) Update the widget.
+
+The widget exposes a `SplitPayment` object containing update methods.
+The initial data sent to the widget can be updated with the following methods:
+
+- `SplitPayment.updatePrice`: Allows to update the base price for the widget to calculate the instalments. The price should be a number containing 2 decimals without the decimal separator. Example:
+
+```javascript
+SplitPayment.updatePrice(45000); // 450,00
+```
+
+- `SplitPayment.updateTheme`: Allows to update the theme for the widget to display in different styles. The theme should be one of the available: 'base' and 'dark'.
+Example:
+
+```javascript
+SplitPayment.updateTheme('dark');
+```
+
+These methods can be called from the external site Javascript code after the widget initialization.
 
 ## Approach considerations
 
