@@ -29,13 +29,32 @@ npm run build // builds the widget
 npm run build:prod // builds the widget in production mode
 ```
 
-To integrate with the widget from an external site it is required to add the following script:
-(the example assumes the script file is at the same path that the html including it)
+To integrate with the widget to an external site it is required to follow this steps: 
+
+1. Add the `split-playment.js` file to the project's root.
+
+2. Add the following script to the entry point html file:
 
 ```javascript
-<script async src="split-payment.js"></script>
+<script src="split-payment.js"></script>
 ```
 
+3. Add a container div where the widget is required to be rendered.
+
+The container must include: 
+- A **split-payment** id.
+- A **data-price** attribute with the price amount to be splited as a value.
+The amount should contain 2 decimals without decimal separator.
+Example: 399,99 should be included as 39999.
+         500 should be included as 50000.
+
+It may optionally include:
+- A **data-theme** attribute with the theme name (default: 'base').
+The current available themes are: `base`, with light colours and `dark`, with darker colours.
+
+```javascript
+<div id="split-payment" data-price="39999" data-theme="dark"></script>
+```
 
 ## Approach considerations
 
@@ -65,6 +84,7 @@ To develop the user interfaces, it has been decided to use [ReactJS library](htt
 
 The stack is completed by:
 - [TypeScript](https://www.typescriptlang.org/): for basic code scripting.
+- [Tanstack (React) Query](https://tanstack.com/query/latest): to manage asyncronous (API connection) state.
 - [Styled Components](https://styled-components.com/): to handle CSS in JS.
 - [Vite](https://vite.dev/) + [Rollup](https://rollupjs.org/): to build the widget for development and production mode.
 - [Vitest](https://vitest.dev/): for testing (with [testing-library](https://testing-library.com/)).
@@ -82,7 +102,31 @@ Finally, it has been decided to use Vitest with Testing library for testing inst
 
 ## Project Organization
 
-TODO
+This project has two purposes at once. To include the widget's main code and to allow proper widget local development. The project organization is as follows:
+
+- `src (except 'widget' folder)`: It contains basic code to allow launching the widget locally so it can be developed pleasantly. It includes two files:
+   - main.tsx: React main entry point where the application is initialized. 
+   - App.tsx: Main (and only) application component that renders the widget root component and adds basic wrapping and the widget's properties set-up.
+
+- `src/widget`: It contains the widget's main code, which is detailed below. The following folders are included in this path.
+
+- `components`: It contains the application components. Components are separated into 'shared' components and widget ones:
+
+    - Shared components: The shared components are project-agnostic, isolated basic components ready to fit in different situations. They can be extracted into a separate repository and work as a component's library to be used by different projects.
+
+    - Widget components: The components outside the 'shared' folder are specific to the widget and are not ready to work in other projects. The Provider component includes Styles and React Query providers. The Root component is the principal widget's component, which renders the SplitPayment main component into the Providers. The SplitPayment components contain the main widget's logic, and they make use of the shared components.
+
+  The components are created using ReactJS (index.tsx file) and styled using Styled-Components (styles.ts). Shared components include testing (component.test.tsx) files using testing-library and Vitest.
+
+
+- `core`: It contains shared helpers, hooks, constants, assets and fundamental files to handle API, state and theming configuration.
+
+
+- `domain`: It contains a folder for each (backend) domain.
+    Each folder is named the same as the backend domain and includes a domain specific file configuring the API requests, a helpers file and a TypeScript types file.
+
+The main widget entry point is the index.tsx file in the `src/widget` folder's root. It mounts the widget in the external site's specified container and is responsible for collecting the information and carrying out the necessary validation checks.
+Files outside `src` folder are Vite, Vitest, Typescript, EsLint and Rollup configuration files, as well as the local development main HTML index file, the package.json file and the project's Readme file, yep, this exact file you are reading :) .
 
 
 ## Development process
@@ -92,4 +136,4 @@ TODO
 
 ## Final thoughts
 
-TODO
+As it has been explained before in the approach considerations section, this particular project has the handicap to require to work on a different project which technology may be unknown. There are multiple ways to get a 'piece of code' to be working on another site. Micro-frontends can be a reasonable solution that allows us to work in parallel. An installable npm package may allow a project within a build system to add new functionality, among others, but applying these solutions may not have a small impact on the final bundle size, they may not allow the best compatibility, or they may be difficult to apply. So the solution offered has been reduced to the most compatible, an already bundled script easy to add to any type of site, from a static one to a project of large complexity. It ensures it is contained in a reduced bundled size, at least as small as possible using React. It is very compatible, the only requirements are JavaScript enabled on the site and React and CSS3 browser-related requirements. And it is easy to install, following 3 simple steps that any developer can carry out in a short time.
