@@ -12,6 +12,7 @@ interface FieldSelectProps<T> {
   value?: string;
   initialText?: string;
   error?: boolean;
+  minWidth?: string;
   onChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -24,6 +25,7 @@ const FieldSelect = <T,>({
   value,
   initialText,
   error = false,
+  minWidth,
   onChange
 }: FieldSelectProps<T>) => (
   <FieldSetStyled>
@@ -33,6 +35,7 @@ const FieldSelect = <T,>({
       value={value}
       name={name}
       $error={error}
+      $minWidth={minWidth}
       onChange={onChange}
     >
       {(!value && initialText) && (

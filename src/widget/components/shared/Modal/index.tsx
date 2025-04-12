@@ -29,7 +29,7 @@ const Modal = ({
         <div>{children}</div>
       </ModalStyled>
     </ModalContainerStyled>,
-    document.body
+    document.getElementById('split-payment')!
   );
 };
 
