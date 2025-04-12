@@ -22,7 +22,7 @@ export const api = async <T,>(
   try {
     const response = await data.json();
 
-    if (!!response.error) {
+    if (response.error) {
       throwError(response.error);
     } else {
       return response;
