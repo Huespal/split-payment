@@ -35,7 +35,7 @@ const SplitPaymentSelect = ({
     }
   };
 
-  if (isEmpty) return <p>No instalments available</p>;
+  if (isEmpty) return <p>{t('instalment_empty')}</p>;
 
   return (
     <FieldSelect

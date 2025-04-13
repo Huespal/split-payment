@@ -2,6 +2,7 @@
   "pay_it_in": "Pay it in",
   "more_info": "More info",
   "instalment_month": "{{count}} instalments of {{total}}/month",
+  "instalment_empty": "No instalments available",
   "split_title": "Split your payment",
   "split_info_1": "Split your payment with only a fixed cost per instalment.",
   "split_info_2": "Now you only pay the first instalment.",
