@@ -53,8 +53,8 @@ Example: 399,99 should be included as 39999.
 It may optionally include:
 - A **data-theme** attribute with the theme name (default: 'base').
 The current available themes are: 
-  - `base`: conatining styles in light colours.
-  - `dark`: conatining styles in dark colours.
+  - `base`: containing styles in light colours.
+  - `dark`: containing styles in dark colours.
 
 - A **data-lang** attribute with the language (default: 'en').
 The current available languages are: 
