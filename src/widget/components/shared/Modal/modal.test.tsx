@@ -1,7 +1,8 @@
 import {
-  describe, expect, render, screen, test, vitest
+  describe, expect, render, screen, test, userEvent, vitest
 } from '@/../../testSetup';
 import Modal from '@/components/shared/Modal';
+import ModalWrapper from '@/core/test/ModalWrapper';
 
 describe('Container > Modal', () => {
   const requiredProps = {
@@ -10,18 +11,26 @@ describe('Container > Modal', () => {
   };
 
   test('Renders Modal component successfully given required properties',
-    () => {
-      render(<Modal {...requiredProps} />);
+    async () => {
+      render(
+        <ModalWrapper>
+          <Modal {...requiredProps} />
+        </ModalWrapper>
+      );
 
+      await userEvent.click(screen.getByText('Show Modal'));
       expect(screen.getByText('Test')).toBeInTheDocument();
     });
 
-  test('Renders Modal component successfully given optional title property',
-    () => {
+  test('Displays title successfully given the optional \'title\' property',
+    async () => {
       render(
-        <Modal title="Modal title" {...requiredProps} />
+        <ModalWrapper>
+          <Modal title="Modal title" {...requiredProps} />
+        </ModalWrapper>
       );
 
+      await userEvent.click(screen.getByText('Show Modal'));
       expect(screen.getByText('Modal title')).toBeInTheDocument();
       expect(screen.getByText('Test')).toBeInTheDocument();
     });

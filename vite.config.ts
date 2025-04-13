@@ -1,8 +1,7 @@
 import react from '@vitejs/plugin-react'
 import tsconfigPaths from 'vite-tsconfig-paths'
-import { defineConfig } from 'vitest/config'
+import { configDefaults, defineConfig } from 'vitest/config'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [tsconfigPaths(), react()],
   server: {
@@ -11,6 +10,17 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
+    onConsoleLog: () => false,
+    coverage: {
+      include: [
+        'src/widget/components/*',
+        'src/widget/core/helpers/*'
+      ],
+      exclude: [
+        ...configDefaults.exclude,
+        'src/widget/components/Root/*'
+      ]
+    },
     setupFiles: './testSetup.tsx'
   }
 })
