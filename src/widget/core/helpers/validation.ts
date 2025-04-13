@@ -10,6 +10,11 @@ export const validatePrice = (price?: string) => {
   if (!isNumber) {
     throw new Error('Price attribute is not a number');
   }
+
+  if (Number(price) < 0) {
+    throw new Error('Price attribute should be positive');
+  }
+
   return Number(price);
 }
 

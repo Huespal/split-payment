@@ -15,6 +15,11 @@ describe('validatePrice', () => {
       .toThrowError('Price attribute is not a number');
   })
 
+  test('Throws an error given a negative price attribute', () => {
+    expect(() => validatePrice('-1000'))
+      .toThrowError('Price attribute should be positive');
+  })
+
   test('Returns a numeric price value given a valid price attribute', () => {
     expect(validatePrice('39999')).toEqual(39999);
   })
