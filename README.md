@@ -1,6 +1,6 @@
 # Split Payment 
 
-Split Payment is a widget to provide e-commerce shops (merchants) with a flexible payment method so their customers (shoppers) can purchase goods by paying in instalments. It connects with external APIs to display the current payment options and details, and to register user interaction.
+Split Payment is a widget to provide e-commerce shops (merchants) with a flexible payment method so their customers (shoppers) can purchase goods by paying in instalments. It connects with an external API to display the current payment options and details, and to register user interaction.
 
 ## Instructions
 
@@ -13,6 +13,8 @@ npm run dev
 ```
 
 You can open [http://localhost:3000](http://localhost:3000) with a browser to see the result.
+
+(Some data is requested from an external API. The data will not load if the API is not up.)
 
 Tests can be run by executing the following commands on a terminal in the project's root:
 
@@ -29,7 +31,7 @@ npm run build // builds the widget
 npm run build:prod // builds the widget in production mode
 ```
 
-To integrate with the widget to an external site it is required to follow this steps: 
+After a successfull build, to integrate with the widget to an external site it is required to follow this steps: 
 
 1. Add the `split-playment.js` file to the project's root.
 
@@ -73,7 +75,7 @@ The widget is automatically intialised after these steps.
 
 4. (Optional) Update the widget.
 
-The widget exposes a `SplitPayment` object containing update methods.
+The widget exposes a `SplitPayment` object globally containing update methods.
 The initial data sent to the widget can be updated with the following methods:
 
 - `SplitPayment.updatePrice`: Allows to update the base price for the widget to calculate the instalments. The price should be a number containing 2 decimals without the decimal separator. Example:
@@ -96,7 +98,7 @@ Example:
 SplitPayment.updateLanguage('ca'); // Catalan
 ```
 
-These methods ara avilable to be used from the external site's Javascript code after the widget initialization.
+These methods ara available to be used from the external site's Javascript code after the widget initialization.
 
 ## Approach considerations
 
@@ -114,15 +116,13 @@ The Split Payment is an interactive widget that can be added to an external site
 
 Although some or all of those concerns can apply to an application too, they are taking on more importance for a widget, which is a piece of code that will be working together with, or at the same place as other unknown tech. It needs to be reliable.
 
-An authorization layer should be included to restrict the widget use only to external applications with the required credentials. This can be done in the widget code with a client key given by the external application.
+The widget can be themed thanks to the theme selection offered. This allows the developer user to make it more appealing to the site’s design the widget will be in. Another approach may be to allow the developer user to style the widget partially or entirely from the external site, but that is not what this widget is meant for, as it has its own proprietary design system and branding which is intended not to be modified.   
 
-The widget can be themed thanks to the theme selection offered by the widget. This allows the developer user to make it more appealing to the site’s design the widget will be in. Another approach may be to allow the developer user to style the widget partially or entirely from the external site, but that is not what this widget is meant for, as it has its own proprietary design system and branding which is intended not to be modified.   
-
-Finally, just an aside note about server side rendering (SSR) which has been taken into consideration. SSR is a technique that allows an application to render HTML before the client code is executed. Although it offers big gains in performance and user experience, being this a widget which will load after the external page is rendered, the technique is not worth it in this case because it will not be possible to take advantage of the gains.     
+Finally, just an aside note about server side rendering (SSR) which has been taken into consideration. SSR is a technique that allows an application to render HTML before the client code is executed. Although it offers big gains in performance and user experience, being this a widget which will load after the external page is rendered, the technique is not worth it in this case because it will not be possible to take advantage of the gains.
 
 ## Tech Stack
 
-To develop the user interfaces, it has been decided to use [ReactJS library](https://react.dev/) a fast and reliable Javascript library constantly improved that allows us to work on the client side with good performance and a nice developer experience. It is important to notice that this library is also capable of functionalities such as SSR within server components or thanks to Next.js integration, also routing and more features that will not be necessary for the widget, so lighter libraries such as [Preact](https://preactjs.com/) have been considered. It will be used React to demonstrate that the widget can be developed with this technology and still not to overly impact the bundle size or the performance.
+To develop the user interfaces, it has been decided to use [ReactJS library](https://react.dev/) a fast and reliable Javascript library constantly improved that allows us to work on the client side with good performance and a nice developer experience. It is important to notice that this library is also capable of functionalities such as SSR within server components or thanks to Next.js integration, also routing and some more features that will not be necessary for the widget, so lighter libraries such as [Preact](https://preactjs.com/) have been considered. It will be used React to demonstrate that the widget can be developed with this technology and still not to overly impact the bundle size or the performance.
 
 The stack is completed by:
 - [TypeScript](https://www.typescriptlang.org/): for basic code scripting.
@@ -134,7 +134,7 @@ The stack is completed by:
 
 It has been decided to use TypeScript over vanilla Javascript to get advantage of types which allows for a faster and stricter developer experience, and it is the recommended React preference.
 
-It has been decided to use React Query to manage API connections due to its ability to avoid unnecessary fetch to the API within the state management under the hood, and the ease of use thanks to React hooks compatibility. [Redux Toolkit Query](https://redux-toolkit.js.org/rtk-query/overview) may have been a valid alternative, among others.
+It has been decided to use React Query to manage API connections due to its ability to avoid unnecessary requests to the API within the state management under the hood, and the ease of use thanks to React hooks compatibility. [Redux Toolkit Query](https://redux-toolkit.js.org/rtk-query/overview) may have been a valid alternative, among others.
 
 It has been decided to use React i18next to manage text translations because it is a very complete and reliable tool. It requires almost no configuration and is ready to work in a React project. Not only that, but it can handle a lot of text without spoiling the performance, and it can externalize texts to an online service, so the project can be translated asynchronously from an external resource. This last feature has not been used in this project because of its reduced scope.
 
@@ -166,11 +166,11 @@ This project has two purposes at once. To include the widget's main code and to 
   The components are created using ReactJS (index.tsx file) and styled using Styled-Components (styles.ts). Shared components include testing (component.test.tsx) files using testing-library and Vitest.
 
 
-- `core`: It contains shared helpers, hooks, constants, assets and fundamental files to handle API, state, i18n and theming configuration.
+- `core`: It contains shared helpers, hooks, constants, assets and fundamental files to handle API, state, i18n, tests and theming configuration.
 
 
 - `domain`: It contains a folder for each (backend) domain.
-    Each folder is named the same as the backend domain and includes a domain specific file configuring the API requests, a helpers file and a TypeScript types file.
+    Each folder is named the same as the backend domain and includes a domain specific file configuring the API requests, an optional helpers file and a TypeScript types file.
 
 The main widget entry point is the index.tsx file in the `src/widget` folder's root. It mounts the widget in the external site's specified container and is responsible for collecting the information and carrying out the necessary validation checks.
 Files outside `src` folder are Vite, Vitest, Typescript, EsLint and Rollup configuration files, as well as the local development main HTML index file, the package.json file and the project's Readme file, yep, this exact file you are reading :) .
@@ -178,9 +178,58 @@ Files outside `src` folder are Vite, Vitest, Typescript, EsLint and Rollup confi
 
 ## Development process
 
-TODO
+To develop the widget, the work has been separated in different tasks.
 
+1. Setup the project and build system.
+  - Setup project structure
+  - Setup development build system (with Vite)
+  - Setup production build system (with Rollup)
+  - Setup external site widget's communication and validation
+
+2. Setup API connection
+  - Setup API base connection (with React Query)
+  - Add the credentialAgreement domain API connection
+  - Add the event domain API connection
+
+3. Add styles system and theming
+  - Setup styles system (with Styled Components)
+  - Add theming, including base theme and a dark variation.
+
+4. Add translations
+  - Setup translation system (with React i18next)
+  - Add translation texts in multiple languages.
+
+5. Add shared components
+  - Add BoxFlex component
+  - Add FieldSelect component
+  - Add Modal component
+
+6. Add widget components
+  - Add SplitPayment Select component
+  - Add SplitPayment Modal component
+  - Add SplitPayment component
+
+7. Review
+  - A final step to review the widget is working properly and do necessary refactor. 
+
+Testing is added for each component and validation helpers.
+Documentation is added from the first task and continuously updated until the project's end.
+This project has been developed using an IDE with IA, Cursor. No conversations had taken place. Predictive results (tab) did help to speed up the development, and it has been a more enriching and pleasant development experience than using a regular IDE.
 
 ## Final thoughts
 
 As it has been explained before in the approach considerations section, this particular project has the handicap to require to work on a different project which technology may be unknown. There are multiple ways to get a 'piece of code' to be working on another site. Micro-frontends can be a reasonable solution that allows us to work in parallel. An installable npm package may allow a project within a build system to add new functionality, among others, but applying these solutions may not have a small impact on the final bundle size, they may not allow the best compatibility, or they may be difficult to apply. So the solution offered has been reduced to the most compatible, an already bundled script easy to add to any type of site, from a static one to a project of large complexity. It ensures it is contained in a reduced bundled size, at least as small as possible using React. It is very compatible, the only requirements are JavaScript enabled on the site and React and CSS3 browser-related requirements. And it is easy to install, following 3 simple steps that any developer can carry out in a short time.
+
+An authorization layer may be included to restrict the widget use only to external applications with the required credentials. The credentials can be validated in the widget code with a client key given by the external application.
+
+The separation between shared components and widget components is done expressly to emulate working with a design system. The shared components may be hosted in a separate project or repository following a design system, and they are ready to be used by different projects. The widget components use the shared components to build components exclusive to this project and are in charge of handling the business logic.
+Theming is also added to reinforce the design system methodology.
+
+React Query automatically saves requests using the React's Context API under the hood. This is a great performance optimization, as multiple requests to the same API endpoint will return the 'cached' response, saved in the React Query's Context, instead of requesting the data to the backend again. We can easily take advantage of this in the widget when changing the product's price from the external site to an already selected one. It gives a more pleasant user experience.
+
+The API URL used for this project should be sent as an environmental variable instead of being hardcoded into the code. This allows to be able to adapt to API URL modifications without requiring amending the project's internal code. 
+
+To communicate between the external site and the widget, it is required to expose methods globally. In this project, this is done by attaching the widget's update methods to the global window variable. This may be unsecure because those methods can be accessed by everybody, and it is a gateway to exploit possible security holes, so a proper validation is a must.     
+Another way to communicate between projects may be within an API. The external site can send requests to an external API, and the widget can listen to it. While this solution could also work, it is more complex and less compatible.
+
+Testing is essential for a project to ensure code robustness. This project includes unit testing with Vitest and testing-library. This should be scaled up as the project grows with end-to-end or integration testing to the entire project with technologies such as Cypress or similar, which can be handled by a QA expert or a skilled enough developer.
