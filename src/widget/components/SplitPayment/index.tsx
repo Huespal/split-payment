@@ -4,7 +4,7 @@ import SplitPaymentSelect from '@/components/SplitPayment/Select';
 import { useGetCreditAgreements } from '@/domain/creditAgreement/api';
 import { Instalment } from '@/domain/creditAgreement/types';
 import { useCreateEvent } from '@/domain/event/api';
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'preact/hooks';
 import { useTranslation } from 'react-i18next';
 
 interface SplitPaymentProps {

@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
-import { screen, render as tlrender } from '@testing-library/react';
+import { screen, render as tlrender } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
-import { ReactElement } from 'react';
+import { ComponentChildren } from 'preact';
 import { describe, expect, test, vitest } from 'vitest';
 import Provider from './src/widget/components/Provider';
 import i18n from './src/widget/core/i18n';
@@ -15,7 +15,7 @@ const mocki18n = () => {
   });
 };
 
-const render = (children: ReactElement) => {
+const render = (children: ComponentChildren) => {
   mocki18n();
   return tlrender(<Provider>{children}</Provider>);
 }

@@ -4,7 +4,7 @@ Split Payment is a widget to provide e-commerce shops (merchants) with a flexibl
 
 ## Instructions
 
-This is a React widget build using Vite for development and Rollup for production.
+This is a Preact widget build using Vite for development and Rollup for production.
 
 To run this widget as a local application execute the following command on a terminal in the project's root:
 
@@ -122,7 +122,7 @@ Finally, just an aside note about server side rendering (SSR) which has been tak
 
 ## Tech Stack
 
-To develop the user interfaces, it has been decided to use [ReactJS library](https://react.dev/) a fast and reliable Javascript library constantly improved that allows us to work on the client side with good performance and a nice developer experience. It is important to notice that this library is also capable of functionalities such as SSR within server components or thanks to Next.js integration, also routing and some more features that will not be necessary for the widget, so lighter libraries such as [Preact](https://preactjs.com/) have been considered. It will be used React to demonstrate that the widget can be developed with this technology and still not to overly impact the bundle size or the performance.
+To develop the user interfaces, it has been decided to use [Preact](https://preactjs.com/) a very lightweight, fast and reliable Javascript library constantly improved that allows us to work on the client side with good performance and a nice developer experience. It is important to notice that this library is limited on its capabilities, but enough for this project requirements. [ReactJS library](https://react.dev/) is a library also capable of functionalities such as SSR within server components or thanks to Next.js integration, also routing and some more features that will not be necessary for the widget. Although React will allow us to develop the project, Preact is considered over it to reduce the bundle size.
 
 The stack is completed by:
 - [TypeScript](https://www.typescriptlang.org/): for basic code scripting.
@@ -132,19 +132,19 @@ The stack is completed by:
 - [Vite](https://vite.dev/) + [Rollup](https://rollupjs.org/): to build the widget for development and production mode.
 - [Vitest](https://vitest.dev/): for testing (with [testing-library](https://testing-library.com/)).
 
-It has been decided to use TypeScript over vanilla Javascript to get advantage of types which allows for a faster and stricter developer experience, and it is the recommended React preference.
+It has been decided to use TypeScript over vanilla Javascript to get advantage of types which allows for a faster and stricter developer experience, and it is the recommended Preact preference.
 
 It has been decided to use React Query to manage API connections due to its ability to avoid unnecessary requests to the API within the state management under the hood, and the ease of use thanks to React hooks compatibility. [Redux Toolkit Query](https://redux-toolkit.js.org/rtk-query/overview) may have been a valid alternative, among others.
 
-It has been decided to use React i18next to manage text translations because it is a very complete and reliable tool. It requires almost no configuration and is ready to work in a React project. Not only that, but it can handle a lot of text without spoiling the performance, and it can externalize texts to an online service, so the project can be translated asynchronously from an external resource. This last feature has not been used in this project because of its reduced scope.
+It has been decided to use React i18next to manage text translations because it is a very complete and reliable tool. It requires almost no configuration and is ready to work in a Preact project. Not only that, but it can handle a lot of text without spoiling the performance, and it can externalize texts to an online service, so the project can be translated asynchronously from an external resource. This last feature has not been used in this project because of its reduced scope.
 
-It has been decided to use Styled Components over [Tailwind CSS](https://tailwindcss.com/) or similar, or just plain CSS because it works flawlessly within React and helps to avoid CSS class conflicts with the external application thanks to its automatic unique class names generation.
+It has been decided to use Styled Components over [Tailwind CSS](https://tailwindcss.com/) or similar, or just plain CSS because it works flawlessly within Preact and helps to avoid CSS class conflicts with the external application thanks to its automatic unique class names generation.
 
 It has been decided to use Vite to build the widget in development mode and take advantage of hot reloading for a selfish reason, as other options such as [Webpack](https://webpack.js.org/) will also allow us to build the application perfectly. Rollup is used for building in production mode because it allows us to only build the strictly necessary files in a comfortable configuration. This build configuration works well with just a little setup, is fast and it gives a nice developer experience.
 
 [Eslint](https://eslint.org/) is included to allow developers to lint the code in development mode.
 
-Finally, it has been decided to use Vitest with Testing library for testing instead of Jest because it needs less configuration, it is faster and, specifically within testing-library, allows us to test React components in a practical way.
+Finally, it has been decided to use Vitest with Testing library for testing instead of Jest because it needs less configuration, it is faster and, specifically within testing-library, allows us to test Preact components in a practical way.
 
 
 ## Project Organization
@@ -152,7 +152,7 @@ Finally, it has been decided to use Vitest with Testing library for testing inst
 This project has two purposes at once. To include the widget's main code and to allow proper widget local development. The project organization is as follows:
 
 - `src (except 'widget' folder)`: It contains basic code to allow launching the widget locally so it can be developed pleasantly. It includes two files:
-   - main.tsx: React main entry point where the application is initialized. 
+   - main.tsx: Preact main entry point where the application is initialized. 
    - App.tsx: Main (and only) application component that renders the widget root component and adds basic wrapping and the widget's properties set-up.
 
 - `src/widget`: It contains the widget's main code, which is detailed below. The following folders are included in this path.
@@ -163,7 +163,7 @@ This project has two purposes at once. To include the widget's main code and to 
 
     - Widget components: The components outside the 'shared' folder are specific to the widget and are not ready to work in other projects. The Provider component includes Styles and React Query providers. The Root component is the principal widget's component, which renders the SplitPayment main component into the Providers. The SplitPayment components contain the main widget's logic, and they make use of the shared components.
 
-  The components are created using ReactJS (index.tsx file) and styled using Styled-Components (styles.ts). Shared components include testing (component.test.tsx) files using testing-library and Vitest.
+  The components are created using Preact (index.tsx file) and styled using Styled-Components (styles.ts). Shared components include testing (component.test.tsx) files using testing-library and Vitest.
 
 
 - `core`: It contains shared helpers, hooks, constants, assets and fundamental files to handle API, state, i18n, tests and theming configuration.
@@ -218,7 +218,7 @@ This project has been developed using an IDE with IA, Cursor. No conversations h
 
 ## Final thoughts
 
-As it has been explained before in the approach considerations section, this particular project has the handicap to require to work on a different project which technology may be unknown. There are multiple ways to get a 'piece of code' to be working on another site. Micro-frontends can be a reasonable solution that allows us to work in parallel. An installable npm package may allow a project within a build system to add new functionality, among others, but applying these solutions may not have a small impact on the final bundle size, they may not allow the best compatibility, or they may be difficult to apply. So the solution offered has been reduced to the most compatible, an already bundled script easy to add to any type of site, from a static one to a project of large complexity. It ensures it is contained in a reduced bundled size, at least as small as possible using React. It is very compatible, the only requirements are JavaScript enabled on the site and React and CSS3 browser-related requirements. And it is easy to install, following 3 simple steps that any developer can carry out in a short time.
+As it has been explained before in the approach considerations section, this particular project has the handicap to require to work on a different project which technology may be unknown. There are multiple ways to get a 'piece of code' to be working on another site. Micro-frontends can be a reasonable solution that allows us to work in parallel. An installable npm package may allow a project within a build system to add new functionality, among others, but applying these solutions may not have a small impact on the final bundle size, they may not allow the best compatibility, or they may be difficult to apply. So the solution offered has been reduced to the most compatible, an already bundled script easy to add to any type of site, from a static one to a project of large complexity. It ensures it is contained in a reduced bundled size. It is very compatible, the only requirements are JavaScript enabled on the site and Preact and CSS3 browser-related requirements. And it is easy to install, following 3 simple steps that any developer can carry out in a short time.
 
 An authorization layer may be included to restrict the widget use only to external applications with the required credentials. The credentials can be validated in the widget code with a client key given by the external application.
 
