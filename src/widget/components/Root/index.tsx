@@ -3,7 +3,7 @@ import SplitPayment from '@/components/SplitPayment';
 import i18n, { i18nConfig } from '@/core/i18n';
 import { Langs } from '@/core/i18n/types';
 import { Theme } from '@/core/theme/types';
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'preact/hooks';
 
 interface RootProps {
   price: number;

@@ -4,11 +4,11 @@ import {
 } from '@/core/helpers/validation';
 import { Langs } from '@/core/i18n/types';
 import { Theme } from '@/core/theme/types';
-import { createRoot, Root as RootType } from 'react-dom/client';
+import { render as preactRender } from 'preact';
 
 const containerId = 'split-payment';
 
-let root: RootType | undefined;
+let root: HTMLElement | undefined;
 let price: number | undefined;
 let theme: Theme | undefined;
 let lang: string | undefined;
@@ -29,11 +29,11 @@ const render = () => {
       : null;
 
     if (container) {
-      root = root || createRoot(container);
+      root = root || container;
       price = price || validatePrice(container.dataset.price);
       theme = theme || validateTheme(container.dataset.theme);
       lang = lang || validateLang(container.dataset.lang);
-      root.render(<Root price={price} theme={theme} lang={lang} />);
+      preactRender(<Root price={price} theme={theme} lang={lang} />, root);
     } else {
       console.warn('Split Payment initialization failed. Container not found.');
     }

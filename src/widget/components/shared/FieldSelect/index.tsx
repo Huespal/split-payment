@@ -1,19 +1,19 @@
 import {
   FieldSelectInputStyled, FieldSetStyled
 } from '@/components/shared/FieldSelect/styles';
-import { ChangeEvent, ReactElement } from 'react';
+import { ComponentChildren, JSX } from 'preact';
 
 interface FieldSelectProps<T> {
   id: string;
   name: string;
   options: T[];
-  children: (props: T) => ReactElement;
+  children: (props: T) => ComponentChildren;
   legend?: string;
   value?: string;
   initialText?: string;
   error?: boolean;
   minWidth?: string;
-  onChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
+  onChange?: (event: JSX.TargetedEvent<HTMLSelectElement, Event>) => void;
 }
 
 const FieldSelect = <T,>({

@@ -4,12 +4,13 @@ import darkTheme from '@/core/theme/dark';
 import GlobalStyle from '@/core/theme/GlobalStyle';
 import { Themes } from '@/core/theme/types';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { ReactNode, useMemo } from 'react';
+import { ComponentChildren } from 'preact';
+import { useMemo } from 'preact/hooks';
 import { DefaultTheme, ThemeProvider } from 'styled-components';
 
 interface ProviderProps {
   themeName?: Themes;
-  children: ReactNode;
+  children: ComponentChildren;
 }
 
 export default function Provider({

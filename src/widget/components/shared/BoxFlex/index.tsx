@@ -1,8 +1,9 @@
 import BoxFlexStyled from '@/components/shared/BoxFlex/styles';
-import { CSSProperties, ReactNode } from 'react';
+import { ComponentChildren } from 'preact';
+import { CSSProperties } from 'styled-components';
 
 interface BoxFlexProps {
-  children: ReactNode;
+  children: ComponentChildren;
   grow?: boolean;
   padding?: CSSProperties['padding'];
   isColumn?: boolean;

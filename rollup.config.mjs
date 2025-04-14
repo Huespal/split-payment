@@ -52,29 +52,31 @@ export default {
     format: 'iife',
     sourcemap: false,
     inlineDynamicImports: true,
-    globals: {
-      'react/jsx-runtime': 'jsxRuntime',
-      'react-dom/client': 'ReactDOM',
-      react: 'React'
-    }
+    name: 'SplitPayment'
   },
   plugins: [
     tsConfigPaths({
       tsConfigPath: './tsconfig.json'
     }),
-    replace({ preventAssignment: true }),
+    replace({
+      preventAssignment: true,
+      'process.env.NODE_ENV': JSON.stringify(production ? 'production' : 'development')
+    }),
     typescript({
       tsconfig: './tsconfig.json'
     }),
     alias({
       entries: [
-        { find: '@', replacement: path.resolve('./src/widget') }
+        { find: '@', replacement: path.resolve('./src/widget') },
+        { find: 'react', replacement: 'preact/compat' },
+        { find: 'react-dom', replacement: 'preact/compat' },
+        { find: 'react/jsx-runtime', replacement: 'preact/jsx-runtime' },
+        { find: 'react/jsx-dev-runtime', replacement: 'preact/jsx-dev-runtime' }
       ]
     }),
     nodeResolve({
       extensions: ['.tsx', '.ts', '.json', '.js', '.jsx', '.mjs'],
-      browser: true,
-      dedupe: ['react', 'react-dom']
+      browser: true
     }),
     json(),
     url(),
@@ -83,13 +85,16 @@ export default {
       babelHelpers: 'bundled',
       presets: [
         '@babel/preset-typescript',
-        [
-          '@babel/preset-react',
-          {
-            runtime: 'automatic',
-            targets: '>0.1%, not dead, not op_mini all'
-          }
-        ]
+        ['@babel/preset-react', {
+          runtime: 'automatic',
+          importSource: 'preact',
+        }]
+      ],
+      plugins: [
+        ['@babel/plugin-transform-react-jsx', {
+          runtime: 'automatic',
+          importSource: 'preact'
+        }]
       ],
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs']
     }),
@@ -105,8 +110,8 @@ export default {
         module: true,
         toplevel: true,
         unsafe_arrows: true,
-        drop_console: true,
-        drop_debugger: true
+        drop_console: production,
+        drop_debugger: production
       },
       output: { quote_style: 1 }
     }),

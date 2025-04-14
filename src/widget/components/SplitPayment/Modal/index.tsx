@@ -1,6 +1,6 @@
 import BoxFlex from '@/components/shared/BoxFlex';
 import Modal from '@/components/shared/Modal';
-import { useMemo } from 'react';
+import { useMemo } from 'preact/hooks';
 import { useTranslation } from 'react-i18next';
 interface SplitPaymentModalProps {
   instalmentFee: string;

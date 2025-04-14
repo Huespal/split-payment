@@ -2,7 +2,7 @@ import Root from '@/components/Root';
 import i18n from '@/core/i18n';
 import { Langs } from '@/core/i18n/types';
 import { Theme, Themes } from '@/core/theme/types';
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'preact/hooks';
 
 const App = () => {
   const [price, setPrice] = useState(39999);
@@ -48,13 +48,17 @@ const App = () => {
             placeholder="39999"
             value={price}
             type="number"
-            onChange={(e) => setPrice(Number(e.target.value))} />
+            onChange={e => {
+              setPrice(Number((e.target as HTMLSelectElement).value))
+            }} />
         </label>
         <select
           style={{
             backgroundColor: 'transparent',
           }}
-          onChange={(e) => setLang(e.target.value as Langs)}
+          onChange={e => {
+            setLang((e.target as HTMLSelectElement).value as Langs)
+          }}
         >
           {Object.values(Langs).map(lang => (
             <option value={lang}>{lang}</option>

@@ -1,6 +1,7 @@
-import { ReactNode, useState } from 'react';
+import { ComponentChildren } from 'preact';
+import { useState } from 'preact/hooks';
 
-const ModalWrapper = ({ children }: { children: ReactNode }) => {
+const ModalWrapper = ({ children }: { children: ComponentChildren }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (

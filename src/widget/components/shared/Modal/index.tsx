@@ -1,10 +1,11 @@
 import useClickOutside from '@/core/hooks/useClickOutside';
-import { ReactNode, useRef } from 'react';
-import { createPortal } from 'react-dom';
+import { ComponentChildren } from 'preact';
+import { createPortal } from 'preact/compat';
+import { useRef } from 'preact/hooks';
 import { ModalContainerStyled, ModalHeaderStyled, ModalStyled } from './styles';
 
 interface ModalProps {
-  children: ReactNode;
+  children: ComponentChildren;
   title?: string;
   enableClickOutside?: boolean;
   onClose: (event: MouseEvent | TouchEvent) => void;

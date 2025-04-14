@@ -1,7 +1,7 @@
 import FieldSelect from '@/components/shared/FieldSelect';
 import { Instalment } from '@/domain/creditAgreement/types';
 import { useCreateEvent } from '@/domain/event/api';
-import { ChangeEvent } from 'react';
+import { JSX } from 'preact';
 import { useTranslation } from 'react-i18next';
 
 interface SplitPaymentSelectProps {
@@ -20,8 +20,8 @@ const SplitPaymentSelect = ({
   const { mutate: createEvent } = useCreateEvent();
   const isEmpty = !isLoading && options.length <= 0;
 
-  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const { value } = event.target;
+  const handleChange = (event: JSX.TargetedEvent<HTMLSelectElement, Event>) => {
+    const { value } = event.target as HTMLSelectElement;
     if (value) {
       const instalmentCount = Number(value);
       createEvent({
