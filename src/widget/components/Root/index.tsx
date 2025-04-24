@@ -9,9 +9,10 @@ interface RootProps {
   price: number;
   theme?: Theme;
   lang?: string;
+  container?: ShadowRoot;
 }
 
-const Root = ({ price, theme, lang = Langs.en }: RootProps) => {
+const Root = ({ price, theme, lang = Langs.en, container }: RootProps) => {
   const [isLangReady, setIsLangReady] = useState(false);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ const Root = ({ price, theme, lang = Langs.en }: RootProps) => {
 
   return (
     <Provider themeName={theme}>
-      <SplitPayment price={price} />
+      <SplitPayment price={price} container={container} />
     </Provider>
   );
 }
