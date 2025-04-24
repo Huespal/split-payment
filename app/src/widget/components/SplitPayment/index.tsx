@@ -1,9 +1,10 @@
 import BoxFlex from '@/components/shared/BoxFlex';
 import SplitPaymentModal from '@/components/SplitPayment/Modal';
 import SplitPaymentSelect from '@/components/SplitPayment/Select';
-import { useGetCreditAgreements } from '@/domain/creditAgreement/api';
+import { GET_CREDIT_AGREEMENTS } from '@/domain/creditAgreement/api';
 import { Instalment } from '@/domain/creditAgreement/types';
-import { useCreateEvent } from '@/domain/event/api';
+import { CREATE_EVENT } from '@/domain/event/api';
+import { useMutation, useQuery } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -18,11 +19,13 @@ const SplitPayment = ({
 }: SplitPaymentProps) => {
   const { t } = useTranslation();
 
-  const {
-    data: creditAgreements = [], isLoading, isSuccess
-  } = useGetCreditAgreements(price);
+  const { loading: isLoading, data } = useQuery(GET_CREDIT_AGREEMENTS, {
+    variables: { totalWithTax: price }
+  });
+  const creditAgreements = data?.getCreditAgreements ?? [];
+  const isSuccess = !!data;
 
-  const { mutate: createEvent } = useCreateEvent();
+  const [createEvent] = useMutation(CREATE_EVENT);
 
   const [
     selectedInstalment, setSelectedInstalment
@@ -34,9 +37,11 @@ const SplitPayment = ({
   const toggleModal = (isInfoModalOpen: boolean) => {
     setShowModal(isInfoModalOpen);
     createEvent({
-      context: 'checkoutWidget',
-      type: 'infoModal',
-      isInfoModalOpen
+      variables: {
+        context: 'checkoutWidget',
+        type: 'infoModal',
+        isInfoModalOpen
+      }
     });
   };
 

@@ -1,6 +1,7 @@
 import FieldSelect from '@/components/shared/FieldSelect';
 import { Instalment } from '@/domain/creditAgreement/types';
-import { useCreateEvent } from '@/domain/event/api';
+import { CREATE_EVENT } from '@/domain/event/api';
+import { useMutation } from '@apollo/client';
 import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -17,7 +18,7 @@ const SplitPaymentSelect = ({
 }: SplitPaymentSelectProps) => {
   const { t } = useTranslation();
 
-  const { mutate: createEvent } = useCreateEvent();
+  const [createEvent] = useMutation(CREATE_EVENT);
   const isEmpty = !isLoading && options.length <= 0;
 
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -25,9 +26,11 @@ const SplitPaymentSelect = ({
     if (value) {
       const instalmentCount = Number(value);
       createEvent({
-        context: 'checkoutWidget',
-        type: 'instalmentSelected',
-        selectedInstalment: instalmentCount
+        variables: {
+          context: 'checkoutWidget',
+          type: 'instalmentSelected',
+          selectedInstalment: instalmentCount
+        }
       });
       const selectedOption = options
         .find(option => option.instalmentCount === instalmentCount);

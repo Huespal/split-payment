@@ -1,14 +1,14 @@
-# Server API
+# Server
 
-Server API is a simple `express` server that acts as source of data.
+This Server is a simple `GraphQL` piece of code that acts as a source of data.
 
 Contents:
 - [Server](#server)
   - [Starting the server](#starting-the-server)
-  - [Credit Agreements API](#credit-agreements-api)
+  - [Credit Agreements](#credit-agreements)
     - [Credit Agreements Request](#credit-agreements-request)
     - [Credit Agreements Response](#credit-agreements-response)
-  - [Events API](#events-api)
+  - [Events](#events)
     - [Events Request](#events-request)
     - [Events Body](#events-body)
     - [Events Response](#events-response)
@@ -16,19 +16,19 @@ Contents:
 ## Starting the server
 Install the dependencies:
 ```bash
-cd api
+cd server
 npm install
 ```
 Run the server:
 ```bash
 npm start
 ```
-_API server should be running on http://localhost:8080._
+_server should be running on http://localhost:8080._
 
 
-## Credit Agreements API
+## Credit Agreements
 
-- The credit agreement API allows a merchant to get credit conditions with a single request.
+- The credit agreement allows a merchant to get credit conditions with a single request.
 - The credit conditions depend on order value, currency, and merchant.
 
 ### Credit Agreements Request
@@ -58,31 +58,31 @@ Transfer-Encoding: chunked
 
 [
     {
-      "instalment_count":        3,
-      "apr":                     { "value":  10408, "string":   "104,08 %" },
-      "total_with_tax":          { "value":  15000, "string":   "150,00 €" },
-      "cost_of_credit":          { "value":    900, "string":     "9,00 €" },
-      "cost_of_credit_pct":      { "value":    600, "string":     "6,00 %" },
-      "grand_total":             { "value":  15900, "string":   "159,00 €" },
-      "max_financed_amount":     { "value": 200000, "string": "2.000,00 €" },
-      "instalment_amount":       { "value":   5000, "string":    "50,00 €" },
-      "instalment_fee":          { "value":    300, "string":     "3,00 €" },
-      "instalment_total":        { "value":   5300, "string":    "53,00 €" },
+      "instalmentCount":        3,
+      "apr":                    { "value":  10408, "string":   "104,08 %" },
+      "totalWithTax":           { "value":  15000, "string":   "150,00 €" },
+      "costOfCredit":           { "value":    900, "string":     "9,00 €" },
+      "costOfCreditPct":        { "value":    600, "string":     "6,00 %" },
+      "grandTotal":             { "value":  15900, "string":   "159,00 €" },
+      "maxFinancedAmount":      { "value": 200000, "string": "2.000,00 €" },
+      "instalmentAmount":       { "value":   5000, "string":    "50,00 €" },
+      "instalmentFee":          { "value":    300, "string":     "3,00 €" },
+      "instalmentTotal":        { "value":   5300, "string":    "53,00 €" },
     },
     {
-      "instalment_count":        6,
-      ... //analagous details as above, but for 6 months credits
+      "instalmentCount":        6,
+      ... //analogous details as above, but for 6 months credits
     },
     {
-      "instalment_count":        12,
-      ... //analagous details as above, but for 12 months credits
+      "instalmentCount":        12,
+      ... //analogous details as above, but for 12 months credits
     }
   ]
 ```
 
-## Events API
+## Events
 
-The events API allows to store different user interactions during the purchase for further analysis.
+The events allows to store different user interactions during the purchase for further analysis.
 
 ### Events Request
 `POST <base>/events`
@@ -93,7 +93,7 @@ $ curl -d '{"context":"checkoutWidget", "type":"simulatorInstalmentChanged", "se
 
 ### Events Body
 
-Events API expects a `JSON` object describing the event that wants to be stored. The only requirements for this object are a `context` and `type` keys with `string` values. The object can also include any extra information to help future analysis.
+Events expects a `JSON` object describing the event that wants to be stored. The only requirements for this object are a `context` and `type` keys with `string` values. The object can also include any extra information to help future analysis.
 
 ### Events Response
 
