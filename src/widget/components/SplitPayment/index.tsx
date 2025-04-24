@@ -9,10 +9,12 @@ import { useTranslation } from 'react-i18next';
 
 interface SplitPaymentProps {
   price: number;
+  container?: ShadowRoot;
 }
 
 const SplitPayment = ({
-  price
+  price,
+  container
 }: SplitPaymentProps) => {
   const { t } = useTranslation();
 
@@ -60,6 +62,7 @@ const SplitPayment = ({
       {showModal && (
         <SplitPaymentModal
           instalmentFee={instalmentFee}
+          container={container}
           onClose={() => { toggleModal(false); }}
         />
       )}

@@ -7,6 +7,7 @@ interface ModalProps {
   children: ReactNode;
   title?: string;
   enableClickOutside?: boolean;
+  container?: ShadowRoot;
   onClose: (event: MouseEvent | TouchEvent) => void;
 }
 
@@ -14,6 +15,7 @@ const Modal = ({
   children,
   title,
   enableClickOutside = false,
+  container,
   onClose
 }: ModalProps) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -23,13 +25,13 @@ const Modal = ({
     <ModalContainerStyled>
       <ModalStyled ref={ref}>
         <ModalHeaderStyled>
-          <h4>seQura</h4>
+          <h4>Details</h4>
           {title && <h1>{title}</h1>}
         </ModalHeaderStyled>
         <div>{children}</div>
       </ModalStyled>
     </ModalContainerStyled>,
-    document.getElementById('split-payment')!
+    container || document.body
   );
 };
 

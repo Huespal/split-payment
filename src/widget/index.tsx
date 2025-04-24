@@ -5,9 +5,11 @@ import {
 import { Langs } from '@/core/i18n/types';
 import { Theme } from '@/core/theme/types';
 import { createRoot, Root as RootType } from 'react-dom/client';
+import { StyleSheetManager } from 'styled-components';
 
 const containerId = 'split-payment';
 
+let shadowRoot: ShadowRoot | undefined;
 let root: RootType | undefined;
 let price: number | undefined;
 let theme: Theme | undefined;
@@ -29,11 +31,23 @@ const render = () => {
       : null;
 
     if (container) {
-      root = root || createRoot(container);
       price = price || validatePrice(container.dataset.price);
       theme = theme || validateTheme(container.dataset.theme);
       lang = lang || validateLang(container.dataset.lang);
-      root.render(<Root price={price} theme={theme} lang={lang} />);
+
+      if (!shadowRoot) {
+        shadowRoot = container.attachShadow({ mode: 'open' });
+        const shadowDiv = document.createElement('div');
+        root = createRoot(shadowDiv);
+        shadowRoot.appendChild(shadowDiv);
+      }
+
+      const component = (
+        <StyleSheetManager target={shadowRoot}>
+          <Root price={price} theme={theme} lang={lang} container={shadowRoot} />
+        </StyleSheetManager>
+      );
+      root?.render(component);
     } else {
       console.warn('Split Payment initialization failed. Container not found.');
     }
