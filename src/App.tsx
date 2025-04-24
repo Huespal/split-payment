@@ -16,7 +16,7 @@ const App = () => {
 
   // Some raw content have been added for development purposes.
   // A main wrapper div to center the widget in the screen.
-  // A price input and label to defined the initial price of the widget.
+  // A price input and label to define the initial price of the widget.
   // A button's theme switch to switch the theme of the widget.
   // A language selector to switch the language of the widget.
   return (
