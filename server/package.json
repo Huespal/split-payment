@@ -1,0 +1,17 @@
+{
+  "name": "server-api",
+  "version": "1.0.1",
+  "author": "Server API",
+  "description": "Server API",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
