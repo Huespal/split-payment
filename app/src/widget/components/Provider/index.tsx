@@ -1,9 +1,9 @@
-import { getQueryClient } from '@/core/helpers/queryClient';
+import { apolloClient } from '@/core/helpers/apolloClient';
 import baseTheme from '@/core/theme/base';
 import darkTheme from '@/core/theme/dark';
 import GlobalStyle from '@/core/theme/GlobalStyle';
 import { Themes } from '@/core/theme/types';
-import { QueryClientProvider } from '@tanstack/react-query';
+import { ApolloProvider } from '@apollo/client';
 import { ReactNode, useMemo } from 'react';
 import { DefaultTheme, ThemeProvider } from 'styled-components';
 
@@ -15,7 +15,6 @@ interface ProviderProps {
 export default function Provider({
   themeName = Themes.base, children
 }: ProviderProps) {
-  const queryClient = getQueryClient();
 
   const theme = useMemo(() => {
     if (themeName === Themes.dark) {
@@ -27,9 +26,9 @@ export default function Provider({
   return (
     <ThemeProvider theme={theme as DefaultTheme}>
       <GlobalStyle />
-      <QueryClientProvider client={queryClient}>
+      <ApolloProvider client={apolloClient}>
         {children}
-      </QueryClientProvider>
+      </ApolloProvider>
     </ThemeProvider>
   )
 }

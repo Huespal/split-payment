@@ -24,6 +24,7 @@ const Root = ({ price, theme, lang = Langs.en, container }: RootProps) => {
   }, [lang]);
 
   if (!isLangReady) return <></>;
+  
 
   return (
     <Provider themeName={theme}>

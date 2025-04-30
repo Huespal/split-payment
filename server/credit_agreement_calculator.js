@@ -1,4 +1,4 @@
-exports.calculate = totalWithTax => {
+export const calculate = totalWithTax => {
   const instalmentsCount = totalWithTax % 2 == 0 ? [3, 6] : [3, 6, 12];
 
   return instalmentsCount.map(count =>
@@ -10,40 +10,40 @@ const APR = 2500;
 const MAX_FINANCED_AMOUNT = 200000;
 
 const calculateCreditAgreement = (totalWithTax, instalmentCount) => ({
-  instalment_count: instalmentCount,
-  total_with_tax: {
+  instalmentCount: instalmentCount,
+  totalWithTax: {
     value: totalWithTax,
     string: centsToMoney(totalWithTax)
   },
-  instalment_amount: {
+  instalmentAmount: {
     value: instalment_amount(totalWithTax, instalmentCount),
     string: centsToMoney(instalment_amount(totalWithTax, instalmentCount))
   },
-  instalment_fee: {
+  instalmentFee: {
     value: instalment_fee(totalWithTax),
     string: centsToMoney(instalment_fee(totalWithTax))
   },
-  instalment_total: {
+  instalmentTotal: {
     value: instalment_total(totalWithTax, instalmentCount),
     string: centsToMoney(instalment_total(totalWithTax, instalmentCount))
   },
-  grand_total: {
+  grandTotal: {
     value: grand_total(totalWithTax, instalmentCount),
     string: centsToMoney(grand_total(totalWithTax, instalmentCount))
   },
-  cost_of_credit: {
+  costOfCredit: {
     value: cost_of_credit(totalWithTax, instalmentCount),
     string: centsToMoney(cost_of_credit(totalWithTax, instalmentCount))
   },
-  cost_of_credit_pct: {
+  costOfCreditPct: {
     value: cost_of_credit_pct(totalWithTax, instalmentCount),
     string: numberToPercentage(
       cost_of_credit_pct(totalWithTax, instalmentCount)
     )
   },
-  cost_of_credit_pct: { value: 600, string: "6,00 %" },
+  costOfCreditPct: { value: 600, string: "6,00 %" },
   apr: { value: APR, string: numberToPercentage(APR) },
-  max_financed_amount: {
+  maxFinancedAmount: {
     value: MAX_FINANCED_AMOUNT,
     string: centsToMoney(MAX_FINANCED_AMOUNT)
   }

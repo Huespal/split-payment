@@ -57,7 +57,7 @@ const App = () => {
           onChange={(e) => setLang(e.target.value as Langs)}
         >
           {Object.values(Langs).map(lang => (
-            <option value={lang}>{lang}</option>
+            <option key={lang} value={lang}>{lang}</option>
           ))}
         </select>
         <button onClick={() => setTheme(isDark ? Themes.base : Themes.dark)}>
